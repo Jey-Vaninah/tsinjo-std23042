@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Tsinjo - Fonds d’urgence HEI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+</head>
+<body class="container my-4">
+
+<h1 class="mb-4">Tsinjo - Fonds d’urgence HEI</h1>
+
+<section class="mb-5">
+    <h2>Faire un don</h2>
+    <form th:action="@{/donate}" method="post" class="row g-3">
+
+        <div class="col-md-4">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" required class="form-control" />
+        </div>
+
+        <div class="col-md-4">
+            <label for="fullName" class="form-label">Nom complet</label>
+            <input type="text" id="fullName" name="fullName" required class="form-control" />
+        </div>
+
+        <div class="col-md-2">
+            <label for="amount" class="form-label">Montant (€)</label>
+            <input type="number" step="0.01" id="amount" name="amount" required class="form-control" />
+        </div>
+
+        <div class="col-md-2">
+            <label for="paymentMethod" class="form-label">Moyen de paiement</label>
+            <select id="paymentMethod" name="paymentMethod" required class="form-select">
+                <option value="" disabled selected>Choisir...</option>
+                <option value="CREDIT_CARD">Carte bancaire</option>
+                <option value="MOBILE_MONEY">Mobile Money</option>
+                <option value="BANK_TRANSFER">Virement bancaire</option>
+            </select>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Envoyer le don</button>
+        </div>
+    </form>
+</section>
+
+<!-- Table des dons -->
+<section class="mb-5">
+    <h2>Liste des dons</h2>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Email Donateur</th>
+            <th>Nom complet</th>
+            <th>Montant (€)</th>
+            <th>Date du don</th>
+            <th>Moyen de paiement</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="donation : ${donations}">
+            <td th:text="${donation.donor.email}">donor@example.com</td>
+            <td th:text="${donation.donor.fullName}">Nom Donateur</td>
+            <td th:text="${donation.payment.amount}">100.00</td>
+            <td th:text="${#temporals.format(donation.donationDate, 'dd/MM/yyyy HH:mm')}">01/01/2025 12:00</td>
+            <td th:text="${donation.payment.paymentMethod}">CREDIT_CARD</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>Liste des aides</h2>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Email Bénéficiaire</th>
+            <th>Description de l'accident</th>
+            <th>Montant (€)</th>
+            <th>Date de l'aide</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="help : ${helps}">
+            <td th:text="${help.beneficiary.email}">beneficiary@example.com</td>
+            <td th:text="${help.accidentDescription}">Description accident</td>
+            <td th:text="${help.payment.amount}">200.00</td>
+            <td th:text="${#temporals.format(help.helpDate, 'dd/MM/yyyy HH:mm')}">02/01/2025 15:30</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+</body>
+</html>
